@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>Mosquitto Websockets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"
+	type="text/javascript"></script>
+<script src="org.eclipse.paho.mqtt.javascript/target/mqttws31.js"
+	type="text/javascript"></script>
+
+</head>
+<body>
+    <script type="text/javascript">
+        //Create a client instance
+        client = new Paho.MQTT.Client("192.168.0.74", 8000, "client2");
+        // set callback handlers
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+
+        
+
+        // called when the client connects
+        function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+            $("#log").append("<br/>" + "onConnect");
+            document.form.connect.disabled = true;
+            document.form.disconnect.disabled = false;
+            document.form.subscribe.disabled = false;
+            document.form.topic.disabled = false;
+        }
+
+        // called when the client loses its connection
+        function onConnectionLost(responseObject) {
+            if (responseObject.errorCode !== 0) {
+                $("#log").append("<br/>" + "onConnectionLost: " + responseObject.errorMessage);
+            }
+        }
+
+        // called when a message arrives
+        function onMessageArrived(message) {
+            $("#log").append("<br/>" + new Date().getTime() + " " + message.payloadString);
+        }
+        function connectMqtt() {
+            // connect the client
+            client.connect({
+                onSuccess : onConnect
+            });
+        }
+        function disconnectMqtt() {
+            client.disconnect();
+            document.form.connect.disabled = false;
+            document.form.disconnect.disabled = true;
+            document.form.topic.disabled = true;
+            document.form.subscribe.disabled = true;
+            document.form.unsubscribe.disabled = true;
+            document.form.send.disabled = true;
+            document.form.message.disabled = true;
+        }
+        function subscribeMqtt() {
+            if (document.form.topic.value != "") {
+                client.subscribe(document.form.topic.value);
+                document.form.message.disabled = false;
+                document.form.send.disabled = false;
+                document.form.subscribe.disabled = true;
+                document.form.unsubscribe.disabled = false;
+                $("#log").append("<br/>" + new Date().getTime() + " Subscribed Topic: " + document.form.topic.value);
+            } else {
+                $("#log").append("<br/>" + new Date().getTime() + " " + "Topic is missing");
+            }
+            
+        }
+
+        function unsubscriibeMqtt() {
+            client.unsubscriibe(document.form.topic.value);
+        }
+        function sendMqtt() {
+            message = new Paho.MQTT.Message(document.form.message.value);
+            message.destinationName = document.form.topic.value;
+            client.send(message);
+        }
+    </script>
+    <form name="form">
+    <table border="2">
+        <tr>
+            <td>
+                <input name="connect" type="button" value="Connect" onclick="connectMqtt()"/>
+                <input name="disconnect" type="button" value="Disconnect" onclick="disconnectMqtt()" disabled="disabled"/>
+            </td>
+            <td align="center" width="100%">
+                Logs
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr>
+                        <td>Topic</td>
+                        <td>
+                            <input name="topic" type="text" value="topic" disabled="disabled"/>
+                            <input name="subscribe" type="button" value="Subscribe" disabled="disabled" onclick="subscribeMqtt()"/>
+                            <input name="unsubscribe" type="button" value="Unsubscribe" onclick="unsubscribeMqtt()" disabled="disabled"/>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>Message</td>
+                        <td>
+                            <input name="message" type="text" value="" disabled="disabled"/>
+                            <input name="send" type="button" value="Send" onclick="sendMqtt()" disabled="disabled"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td id="log" valign="top"></td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

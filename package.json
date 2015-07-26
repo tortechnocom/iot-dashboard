@@ -1,0 +1,63 @@
+{
+  "name": "iot-dashboard",
+  "description": "The Internet of Things Dashboard app illustrating the usage of express, mongoose, passportjs, swig and other modules in nodejs",
+  "keywords": [
+    "express",
+    "mongoose",
+    "mongodb",
+    "passport",
+    "demo"
+  ],
+  "version": "0.0.1",
+  "private": false,
+  "author": "Supachai Chaimangua <tortechnocom@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git url"
+  },
+  "engines": {
+    "node": "0.12.6"
+  },
+  "scripts": {
+    "start": "NODE_PATH=./config:./app/controllers NODE_ENV=development ./node_modules/.bin/nodemon server.js",
+    "test": "NODE_PATH=./config:./app/controllers NODE_ENV=test ./node_modules/.bin/mocha --reporter spec --timeout 10000 test/test-*.js"
+  },
+  "dependencies": {
+    "async": "1.3.0",
+    "body-parser": "1.13.2",
+    "compression": "1.5.1",
+    "connect-flash": "0.1.1",
+    "connect-mongo": "0.8.1",
+    "cookie-parser": "1.3.5",
+    "cookie-session": "1.2.0",
+    "csurf": "1.8.3",
+    "express": "4.13.1",
+    "express-session": "1.11.3",
+    "forever": "0.14.2",
+    "imager": "0.2.7",
+    "method-override": "2.3.3",
+    "mongoose": "4.0.6",
+    "mongoose-timestamp": "0.4.0",
+    "morgan": "1.6.1",
+    "multer": "0.1.8",
+    "notifier": "0.1.7",
+    "passport": "0.2.2",
+    "passport-facebook": "2.0.0",
+    "passport-github": "0.1.5",
+    "passport-google-oauth": "0.2.0",
+    "passport-linkedin": "0.1.3",
+    "passport-local": "1.0.0",
+    "passport-twitter": "1.0.3",
+    "swig": "1.4.2",
+    "view-helpers": "0.1.5",
+    "winston": "1.0.1",
+    "mosca": "0.30.5",
+    "i18n": "0.5.0"
+  },
+  "devDependencies": {
+    "supertest": "1.0.1",
+    "should": "7.0.1",
+    "mocha": "2.2.5",
+    "nodemon": "1.3.7"
+  }
+}

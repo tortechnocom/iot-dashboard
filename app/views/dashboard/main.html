@@ -1,0 +1,90 @@
+{% extends '../layouts/default.html' %}
+
+{% block main %}
+    <script type="text/javascript" src="js/dashboard.js"></script>
+    <button class="btn btn-fab btn-raised btn-material-red" data-toggle="modal" data-target="#new-thing-dialog">
+        <i class="mdi-content-add"></i>
+        <div class="ripple-wrapper"></div>
+    </button>
+    <button class="btn btn-fab btn-raised btn-material-red">
+        <i class="mdi-action-settings"></i>
+        <div class="ripple-wrapper"></div>
+    </button>
+    <button class="btn btn-fab btn-raised btn-material-red">
+        <i class="mdi-action-view-list"></i>
+        <div class="ripple-wrapper"></div>
+    </button>
+    <button class="btn btn-fab btn-raised btn-material-red">
+        <i class="mdi-action-dashboard"></i>
+        <div class="ripple-wrapper"></div>
+    </button>
+    <div id="new-thing-dialog" class="modal fade" tabindex="-1">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+           <h2 class="modal-title">New Thing</h4>
+           <div class="alert alert-danger" role="alert" style="display: none"></div>
+         </div>
+         <div class="modal-body">
+            <form class="form-horizontal" name="NewThing" action="things/create" method="post">
+                <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+                <fieldset>
+                    <legend></legend>
+                    <div class="form-group">
+                        <label for="select" class="col-lg-2 control-label">Type</label>
+                        <div class="col-lg-10">
+                            <select class="form-control" id="select" name="type">
+                                <option value="switch">Switch</option>
+                                <option value="temperature">Temperature</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-10">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name">
+                            <span class="help-block">Only a-z and 0-9 e.g. thing100</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textArea" class="col-lg-2 control-label">Descrioption</label>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" rows="3" id="textArea" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enabled" class="col-lg-2 control-label">Enable</label>
+                        <div class="col-lg-10">
+                            <div class="togglebutton">
+                                <label>
+                                    <input id="enabled" name="enabled" type="checkbox" checked="" value="Y">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+         </div>
+         <div class="modal-footer">
+           <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+           <button id="submit-new-thing" type="submit" class="btn btn-primary">Submit</button>
+         </div>
+       </div>
+     </div>
+   </div>
+   {% for thing in things %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+        <h3 class="panel-title">{{ thing.name }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="togglebutton">
+              <label>
+                  <input id="{{ thing._id.toString() }}" name="enabled" type="checkbox" checked="" value="ON" thing-type="{{ thing.type }}" user-id="{{user_id}}">
+              </label>
+          </div>
+        </div>
+    </div>
+   {% endfor %}
+{% endblock %}
