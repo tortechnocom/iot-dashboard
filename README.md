@@ -1,6 +1,6 @@
 
 
-# iot-dashboard
+# IoT Dashboard
 
 
 
