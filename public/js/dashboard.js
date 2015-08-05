@@ -1,6 +1,31 @@
 /**
  * Dashboard
  */
+/*function WebSocketTest() {
+    if ("WebSocket" in window) {
+        alert("WebSocket is supported by your Browser!");
+        // Let us open a web socket
+        var ws = new WebSocket("wss://192.168.0.74:8443");
+        console.log(ws);
+        ws.onopen = function(evt) {
+            alert("WebSocket Connected...");
+        };
+
+        ws.onmessage = function(evt) {
+            alert("Message is received...");
+        };
+
+        ws.onclose = function(evt) {
+            // websocket is closed.
+            alert("Connection is closed...");
+        };
+    }
+
+    else {
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
+}*/
 
 $(document).ready(function () {
     $('#new-thing-dialog').on('hidden.bs.modal', function (e) {
@@ -44,7 +69,7 @@ function bindSwitch (obj) {
     var thingId = $(obj).attr("id");
     userId = $(obj).attr("user-id");
     clientId = "t:" + userId + ":" + thingId
-    clientList[thingId] = new Paho.MQTT.Client("192.168.0.74", 8000, clientId);
+    clientList[thingId] = new Paho.MQTT.Client("wss://192.168.0.74:8443/mqtt", clientId);
     // set callback handlers
     clientList[thingId].onConnectionLost = onConnectionLost;
     clientList[thingId].onMessageArrived = onMessageArrived;
@@ -57,17 +82,11 @@ function bindSwitch (obj) {
     $(obj).bind({
         click: function () {
             sendMqtt($(this).attr("id"));
-            topic = "iot/" + $(this).attr("id");
-            sendHttpMqtt(topic);
         }
     });
 }
 
 function onConnect(thingId) {
-    console.log("Client [" + clientId + "] is connected");
-    topic = "iot/" + thingId;
-    clientList[thingId].subscribe(topic);
-    console.log("Subscriped Topic : " + topic);
     sendMqtt(thingId);
 }
 // called when the client loses its connection
@@ -90,6 +109,9 @@ function sendMqtt(thingId) {
     if ($("#" + thingId).is(":checked")) status = "ON"
     message = new Paho.MQTT.Message(status);
     topic = "iot/" + thingId;
+    clientList[thingId].subscribe(topic);
+    console.log("Subscriped Topic : " + topic);
+    console.log(topic);
     message.destinationName = topic;
     clientList[thingId].send(message);
 }

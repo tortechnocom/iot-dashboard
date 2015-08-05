@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('config');
 var mosca = require('mosca');
-var http = require("http");
+var async = require("async");
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -61,25 +61,39 @@ module.exports = app;
 /*******************************************************************************
  * Mosca MQTT Broker
  */
+
 var ascoltatore = {
     // using ascoltatore
     type : 'mongo',
     url : 'mongodb://localhost:27017/mqtt',
-    pubsubCollection : 'ascoltatori',
+    pubsubCollection : 'mqttpubsub',
     mongo : {}
 };
+//var SECURE_KEY = __dirname + '/config/secure/server-key.pem';
+//var SECURE_CERT = __dirname + '/config/secure/server-cert.pem';
+//var SECURE_KEY = __dirname + '/config/secure/tls-key.pem';
+//var SECURE_CERT = __dirname + '/config/secure/tls-cert.pem';
+var SECURE_KEY = __dirname + '/config/secure/key.pem';
+var SECURE_CERT = __dirname + '/config/secure/cert.pem';
+console.log(SECURE_KEY);
+console.log(SECURE_CERT);
+var moscaSettings = {
+        interfaces: [
+            { type: "mqtt", port: 1883 },
+            { type: "mqtts", port: 8883, credentials: { keyPath: SECURE_KEY, certPath: SECURE_CERT } },
+            { type: "http", port: 8080, bundle: true },
+            { type: "https", port: 8443, bundle: true, credentials: { keyPath: SECURE_KEY, certPath: SECURE_CERT } }
+        ],
+        stats: false,
 
-var settings = {
-    port : 1883,
-    backend : ascoltatore,
-    http : {
-        port : 8000,
-        bundle : true,
-        static : './'
-    }
-};
+        logger: { name: 'MoscaServer', level: 'debug' },
 
-var server = new mosca.Server(settings);
+        //persistence: { factory: mosca.persistence.Redis, url: 'localhost:6379', ttl: { subscriptions: 1000 * 60 * 10, packets: 1000 * 60 * 10 } },
+
+        backend: ascoltatore
+    };
+
+var server = new mosca.Server(moscaSettings);
 
 server.on('clientConnected', function(client) {
     console.log('client connected', client.id);
@@ -95,7 +109,7 @@ server.on('ready', setup);
 // fired when the mqtt server is ready
 function setup() {
     server.authenticate = authenticate;
-    console.log('Mosca MQTT server is up and running on port 1883 and WebSocket on port 8000');
+    console.log('Mosca MQTT server is up and running on port 1883 and WebSocket on port 8080');
 }
 // Accepts the connection if the username and password are valid
 var authenticate = function(client, userName, password, callback) {

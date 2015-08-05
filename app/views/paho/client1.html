@@ -12,7 +12,7 @@
 <body>
     <script type="text/javascript">
         //Create a client instance
-        client = new Paho.MQTT.Client("192.168.0.74", 8000, "client1");
+        client = new Paho.MQTT.Client("wss://192.168.0.74:8443/", "client1");
         // set callback handlers
         client.onConnectionLost = onConnectionLost;
         client.onMessageArrived = onMessageArrived;
