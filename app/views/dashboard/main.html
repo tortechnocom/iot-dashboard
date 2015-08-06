@@ -79,9 +79,10 @@
         <h3 class="panel-title">{{ thing.name }}</h3>
         </div>
         <div class="panel-body">
-            <div class="togglebutton">
+            <i id="thing-icon-{{ thing._id.toString() }}" class="fa fa-lightbulb-o thing {% if thing.switch_status == 'ON' %}light-on{% endif %}"></i>
+            <div class="togglebutton thing-toggle-button">
               <label>
-                  <input id="{{ thing._id.toString() }}" name="enabled" type="checkbox" checked="" value="ON" thing-type="{{ thing.type }}" user-id="{{user_id}}">
+                  <input id="{{ thing._id.toString() }}" name="enabled" type="checkbox" {% if thing.switch_status == 'ON' %}checked{% endif %} value="ON" thing-type="{{ thing.type }}" user-id="{{user_id}}">
               </label>
           </div>
         </div>

@@ -75,8 +75,6 @@ var ascoltatore = {
 //var SECURE_CERT = __dirname + '/config/secure/tls-cert.pem';
 var SECURE_KEY = __dirname + '/config/secure/key.pem';
 var SECURE_CERT = __dirname + '/config/secure/cert.pem';
-console.log(SECURE_KEY);
-console.log(SECURE_CERT);
 var moscaSettings = {
         interfaces: [
             { type: "mqtt", port: 1883 },

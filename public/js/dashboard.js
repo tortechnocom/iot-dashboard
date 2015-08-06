@@ -68,7 +68,8 @@ var clientList = [];
 function bindSwitch (obj) {
     var thingId = $(obj).attr("id");
     userId = $(obj).attr("user-id");
-    clientId = "t:" + userId + ":" + thingId
+    clientTime = new Date().getTime();
+    clientId = "t:" + userId + ":" + thingId + ":" + clientTime
     clientList[thingId] = new Paho.MQTT.Client("wss://192.168.0.74:8443/mqtt", clientId);
     // set callback handlers
     clientList[thingId].onConnectionLost = onConnectionLost;
@@ -101,6 +102,17 @@ function onConnectionLost(responseObject) {
 
 // called when a message arrives
 function onMessageArrived(message) {
+    thingId = message.destinationName.split("/")[1];
+    checked = false;
+    if (message.payloadString == "ON") {
+        checked = true;
+    }
+    if (checked) {
+        $("#thing-icon-" + thingId).addClass("light-on");
+    } else {
+        $("#thing-icon-" + thingId).removeClass("light-on");
+    }
+    $("#" + thingId).prop('checked', checked);
     console.log(new Date().getTime() + " " + message.payloadString);
 }
 

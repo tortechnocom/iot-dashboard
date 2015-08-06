@@ -93,3 +93,21 @@ button.error:focus {
   padding-left: 5px;
   padding-right: 5px;
 }
+/* Dashboard */
+.thing {
+    font-size: 250%;
+}
+.thing {
+    font-size: 250%;
+    float: left;
+}
+.thing-toggle-button {
+    width: 50px;
+    float: right;
+}
+.light-on {
+    color: rgb(255, 200, 0);
+}
+.light-off {
+    color: rgb(80,80,80)
+}
