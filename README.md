@@ -1,8 +1,8 @@
 
 # IoT Dashboard
-<center>
+<p align="center">
 <a href="#"><img src="https://raw.githubusercontent.com/tortechnocom/iot-dashboard/master/public/img/IoTDashboard.png" alt="banner" width="50%" style="max-width:50%;"></a>
-</center>
+</p>
 
 
 
