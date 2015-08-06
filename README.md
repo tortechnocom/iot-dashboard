@@ -1,6 +1,6 @@
 
 # IoT Dashboard
-<p><a href="#"><img src="/tortechnocom/iot-dashboard/master/public/img/IoTDashboard.png" alt="banner" style="max-width:50%;"></a></p>
+<p><a href="#"><img src="https://raw.githubusercontent.com/tortechnocom/iot-dashboard/master/public/img/IoTDashboard.png" alt="banner" style="max-width:50%;"></a></p>
 
 
 
