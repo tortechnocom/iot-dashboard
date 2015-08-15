@@ -111,3 +111,6 @@ button.error:focus {
 .light-off {
     color: rgb(80,80,80)
 }
+.iot-graph {
+    text-align: center;
+}

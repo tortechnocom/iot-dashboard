@@ -99,7 +99,11 @@ server.on('clientConnected', function(client) {
 
 // fired when a message is received
 server.on('published', function(packet, client) {
-    console.log('Published', packet.payload);
+    var MqttMessage = mongoose.model('MqttMessage');
+    if (client) {
+        var mqttMessage = new MqttMessage({client: client.id, topic: packet.topic, message: packet.payload});
+        mqttMessage.save();
+    }
 });
 
 server.on('ready', setup);

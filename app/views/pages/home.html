@@ -1,6 +1,77 @@
 {% extends '../layouts/default.html' %}
 
 {% block main %}
-  <h1>{{ welcomeMessage }}</h1>
-  <button class="btn btn-primary">Colored<div class="ripple-wrapper"></div></button>
+<style>
+.pumpkin {
+    fill: yellow;
+    stroke: orange;
+    stroke-width: 50;
+ }
+ .arc path {
+  stroke: #fff;
+}
+</style>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="well">
+            <div class="iot-graph" id="things"></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+             {{mqttMessages.length}} messages
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="well">
+             {{users.length}} users 
+        </div>
+    </div>
+</div>
+<script>
+var dataset = {
+  things: [{{thingYs.length}}, {{thingNs.length}}]
+};
+
+var width = 300,
+    height = 300,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.ordinal()
+    .range(["orange", "lightgray"]);
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(radius - 70);
+
+var pie = d3.layout.pie()
+    .sort(null);
+
+var svg = d3.select("#things").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+svg.append("text")
+    .attr("transform" ,"translate(-50, 0)")
+    .style("font-size", "24pt")
+    .style("font-weight", "bold")
+    .html("Things");
+svg.selectAll(".arc")
+        .data(pie(dataset.things))
+        .enter().append("g")
+        .attr("class", "arc")
+        .append("path")
+        .attr("d", arc)
+        .style("fill", function(d, i) { return color(i);});
+svg.selectAll(".arc")
+        .data(pie(dataset.things))
+        .append("text")
+        .attr("transform", function(d, i) {return "translate(" + arc.centroid(d) + ")"; })
+        .attr("dy", ".35em")
+        .style("text-anchor", "middle")
+        .text(function(d, i) { return dataset.things[i]})
+        .attr("fill", "black")
+        .style("font-size", "16pt");
+</script>
 {% endblock %}
