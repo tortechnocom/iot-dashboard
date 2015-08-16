@@ -1,7 +1,7 @@
 {% extends '../layouts/default.html' %}
 
 {% block main %}
-<style>
+<style> 
 .pumpkin {
     fill: yellow;
     stroke: orange;
@@ -19,12 +19,14 @@
     </div>
     <div class="col-lg-4">
         <div class="well">
-             {{mqttMessages.length}} messages
+                <div class="large-text">{{mqttMessages.length}}</div>
+                <div class="small-text"><i class="fa fa-comment"></i> messages</div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="well">
-             {{users.length}} users 
+             <div class="large-text">{{users.length}}</div>
+             <div class="small-text"><i class="fa fa-user"></i> users</div>
         </div>
     </div>
 </div>
@@ -72,6 +74,8 @@ svg.selectAll(".arc")
         .style("text-anchor", "middle")
         .text(function(d, i) { return dataset.things[i]})
         .attr("fill", "black")
-        .style("font-size", "16pt");
+        .style("font-size", "16pt")
+        .append("i")
+        .attr("class","fa fa-user");
 </script>
 {% endblock %}

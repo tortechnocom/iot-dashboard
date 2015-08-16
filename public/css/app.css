@@ -114,3 +114,14 @@ button.error:focus {
 .iot-graph {
     text-align: center;
 }
+.large-text {
+    font-size: 80pt;
+    text-align: center;
+    margin-top: 50px;
+}
+.small-text {
+    text-align: center;
+}
+.well {
+    height: 340px;
+}
