@@ -73,8 +73,10 @@ var ascoltatore = {
 //var SECURE_CERT = __dirname + '/config/secure/server-cert.pem';
 //var SECURE_KEY = __dirname + '/config/secure/tls-key.pem';
 //var SECURE_CERT = __dirname + '/config/secure/tls-cert.pem';
-var SECURE_KEY = __dirname + '/config/secure/key.pem';
-var SECURE_CERT = __dirname + '/config/secure/cert.pem';
+//var SECURE_KEY = __dirname + '/config/secure/key.pem';
+//var SECURE_CERT = __dirname + '/config/secure/cert.pem';
+var SECURE_KEY = __dirname + '/config/secure/iot.key';
+var SECURE_CERT = __dirname + '/config/secure/iot.csr';
 var moscaSettings = {
         interfaces: [
             { type: "mqtt", port: 1883 },
