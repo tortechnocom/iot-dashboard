@@ -14,10 +14,10 @@ var utils = require('../../lib/utils');
 exports.publish = function (req, res) {
     topic = req.body.topic;
     var message = req.body.message;
-    console.log("============ thingId: " + topic.split("/")[1]);
+    //console.log("============ thingId: " + topic.split("/")[1]);
     Thing.findOneAndUpdate({_id: topic.split("/")[1]}, {$set: {switch_status: message}}, function (err, doc) {});
-    console.log("============ topic: " + topic);
-    console.log("============ message: " + message);
+    //console.log("============ topic: " + topic);
+    //console.log("============ message: " + message);
     res.json({});
 };
 

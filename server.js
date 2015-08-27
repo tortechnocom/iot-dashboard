@@ -100,9 +100,20 @@ server.on('clientConnected', function(client) {
 // fired when a message is received
 server.on('published', function(packet, client) {
     var MqttMessage = mongoose.model('MqttMessage');
-    if (client) {
+    if (client != null && packet.topic != "iot/global") {
         var mqttMessage = new MqttMessage({client: client.id, topic: packet.topic, message: packet.payload});
         mqttMessage.save();
+        MqttMessage.find().exec(function (err, mqttMessages) {
+            var message = {
+                    topic: 'iot/global',
+                    payload: "messages=" + mqttMessages.length, // or a Buffer
+                    qos: 0, // 0, 1, or 2
+                    retain: false // or true
+                  };
+            server.publish(message, function() {
+                console.log('done!');
+            });
+        });
     }
 });
 

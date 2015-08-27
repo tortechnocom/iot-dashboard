@@ -7,7 +7,7 @@
 var users = require('users');
 var pages = require('pages');
 var dashboard = require('dashboard');
-var things = require('things');
+var thing = require('thing');
 var mqtt = require('mqtt');
 var auth = require('./middlewares/authorization');
 
@@ -72,7 +72,9 @@ module.exports = function(app, passport) {
 
     // dashboard route
     app.get('/my-dashboard', dashboard.main);
-    app.post('/things/create', things.create);
+    app.post('/thing/create', thing.create);
+    app.get('/thing/setting', thing.setting);
+    app.post('/thing/update', thing.update);
 
     // MQTT Routes
     //app.post("/things/mqtt/publish", things.mqtt.publish);

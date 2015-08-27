@@ -125,3 +125,11 @@ button.error:focus {
 .well {
     height: 340px;
 }
+.thing-menu-right {
+    float: right;
+    margin-top: -14px;
+    cursor: pointer;
+}
+.description {
+    padding-left: 40px;
+}

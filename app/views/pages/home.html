@@ -1,6 +1,7 @@
 {% extends '../layouts/default.html' %}
 
 {% block main %}
+<script type="text/javascript" src="js/home.js"></script>
 <style> 
 .pumpkin {
     fill: yellow;
@@ -19,7 +20,7 @@
     </div>
     <div class="col-lg-4">
         <div class="well">
-                <div class="large-text">{{mqttMessages.length}}</div>
+                <div class="large-text" id="messages">{{mqttMessages.length}}</div>
                 <div class="small-text"><i class="fa fa-comment"></i> messages</div>
         </div>
     </div>

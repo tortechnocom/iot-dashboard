@@ -12,6 +12,7 @@ var ThingSchema = new Schema({
     type: { type: String, default: '' },
     user_id: {type: String, default: ''},
     enabled: {type: String, default: 'N'},
+    description: {type: String, default: ''},
     switch_status: {type: String, default: 'OFF'}
 });
 ThingSchema.plugin(timestamps);
@@ -31,6 +32,9 @@ ThingSchema.path('user_id').validate(function (user_id) {
 ThingSchema.path('enabled').validate(function (enabled) {
     return enabled.length;
 }, 'Status cannot be blank');
+ThingSchema.path('description').validate(function (description) {
+    return description.length;
+}, 'Description cannot be blank');
 
 
 mongoose.model('Thing', ThingSchema);

@@ -1,0 +1,87 @@
+{% block main %}
+<div id="thing-dialog-{{thing._id.toString()}}" class="modal fade" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{thing.name}}</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name="thing" action="thing/update" method="post">
+                <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+                <input type="hidden" name="thing_id" value="{{thing._id.toString()}}">
+                <fieldset>
+                    <legend></legend>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-10">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" value="{{thing.name}}">
+                            <span class="help-block">Only a-z and 0-9 e.g. thing100</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textArea" class="col-lg-2 control-label">Description</label>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" rows="3" id="textArea" name="description">{{thing.description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="thing-enabled" class="col-lg-2 control-label">Enable</label>
+                        <div class="col-lg-10">
+                            <div class="togglebutton">
+                                <label>
+                                    <input id="thing-enabled" name="enabled" type="checkbox" checked="" value="Y">
+                                    <span class="toggle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div class="panel panel-info">
+               <div class="panel-heading">
+                    <h3 class="panel-title">MQTT Info</h3>
+               </div>
+               <div class="panel-body">
+                    Device Client ID: xxxxxxxxxxxx
+               </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="updateThing()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<<script type="text/javascript">
+<!--
+function updateThing() {
+   data = $(document.thing).serialize();
+   $.ajax({
+      type: "POST",
+      async: false,
+      url: $(document.thing).attr("action"),
+      data: data,
+      dataType: "json",
+      success: function (data) {
+          if (data.errors) {
+              $(".alert.alert-danger").html("");
+              $(".alert.alert-danger").css("display", "block");
+              for (key in data.errors) {
+                  $(".alert.alert-danger").append(data.errors[key].message + "<br/>");
+              }
+          } else {
+              $(".alert.alert-danger").html("");
+              $(".alert.alert-danger").css("display", "none");
+              location.reload();
+          }
+      },
+      error: function (xhr,status,error) {
+          //console.log(xhr.responseJSON);
+      }
+   });
+}
+//-->
+</script>
+{% endblock %}
