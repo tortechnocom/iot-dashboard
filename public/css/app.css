@@ -133,3 +133,12 @@ button.error:focus {
 .description {
     padding-left: 40px;
 }
+.page-bottom-fixed {
+    position: fixed;
+    z-index: 10;
+    bottom: 10px;
+    right: 10px;
+}
+.page-header {
+    margin: 20px 0 10px !important;
+}

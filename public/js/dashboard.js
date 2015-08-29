@@ -1,7 +1,8 @@
 /**
  * Dashboard
  */
-/*function WebSocketTest() {
+
+function WebSocketTest() {
     if ("WebSocket" in window) {
         alert("WebSocket is supported by your Browser!");
         // Let us open a web socket
@@ -25,7 +26,8 @@
         // The browser doesn't support WebSocket
         alert("WebSocket NOT supported by your Browser!");
     }
-}*/
+}
+//WebSocketTest();
 
 $(document).ready(function () {
     $('#new-thing-dialog').on('hidden.bs.modal', function (e) {
@@ -65,23 +67,27 @@ $(document).ready(function () {
     });
 });
 var clientList = [];
+var connOptions = null;
 function bindSwitch (obj) {
     var thingId = $(obj).attr("id");
     userId = $(obj).attr("user-id");
     clientTime = new Date().getTime();
     clientId = "t:" + userId + ":" + thingId + ":" + clientTime
-    clientList[thingId] = new Paho.MQTT.Client("wss://192.168.0.74:8443/mqtt", clientId);
+    clientList[thingId] = new Paho.MQTT.Client("192.168.0.74", 8443, clientId);
     //clientList[thingId] = new Paho.MQTT.Client("wss://146.148.85.203:8443/mqtt", clientId);
     //clientList[thingId] = new Paho.MQTT.Client("wss://192.168.1.48:8443/mqtt", clientId);
     // set callback handlers
     clientList[thingId].onConnectionLost = onConnectionLost;
     clientList[thingId].onMessageArrived = onMessageArrived;
-    clientList[thingId].connect({
-        onSuccess : function () {onConnect(thingId)},
-        userName: "testuser",
-        password: "23331067a6699247d017e4adf6fab8c8d2bb0508",
-        keepAliveInterval: 120
-    });
+    var connOptions = {
+            useSSL: true,
+            onSuccess : function () {onConnect(thingId)},
+            userName: "testuser",
+            password: "23331067a6699247d017e4adf6fab8c8d2bb0508",
+            keepAliveInterval: 120,
+            cleanSession: true
+        };
+    clientList[thingId].connect(connOptions);
     $(obj).bind({
         click: function () {
             sendMqtt($(this).attr("id"));
@@ -94,12 +100,10 @@ function onConnect(thingId) {
 }
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
+    id = this.clientId.split(":")[2];
     if (responseObject.errorCode !== 0) {
         console.log("onConnectionLost: " + responseObject.errorMessage);
     }
-    $("input[thing-type=switch]").each(function () {
-        bindSwitch(this);
-    });
 }
 
 // called when a message arrives

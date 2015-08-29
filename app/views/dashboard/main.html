@@ -1,23 +1,14 @@
 {% extends '../layouts/default.html' %}
-
-{% block main %}
+{% block content %}
     <script type="text/javascript" src="js/dashboard.js"></script>
-    <button class="btn btn-fab btn-raised btn-material-red" data-toggle="modal" data-target="#new-thing-dialog">
-        <i class="mdi-content-add"></i>
-        <div class="ripple-wrapper"></div>
-    </button>
-    <button class="btn btn-fab btn-raised btn-material-red">
-        <i class="mdi-action-settings"></i>
-        <div class="ripple-wrapper"></div>
-    </button>
-    <button class="btn btn-fab btn-raised btn-material-red">
+    <!-- button class="btn btn-fab btn-raised btn-material-red">
         <i class="mdi-action-view-list"></i>
         <div class="ripple-wrapper"></div>
     </button>
     <button class="btn btn-fab btn-raised btn-material-red">
         <i class="mdi-action-dashboard"></i>
         <div class="ripple-wrapper"></div>
-    </button>
+    </button -->
     <div id="new-thing-dialog" class="modal fade" tabindex="-1">
      <div class="modal-dialog">
        <div class="modal-content">
@@ -73,8 +64,6 @@
        </div>
      </div>
    </div>
-{% endblock %}
-{% block content %}
    {% for thing in things %}
     <div class="col-lg-3">
        <div class="panel panel-primary">
@@ -99,4 +88,10 @@
         });
     </script>
    {% endfor %}
+{% endblock %}
+{% block bottom%}
+    <button class="btn btn-fab btn-raised btn-material-red add-thing" data-toggle="modal" data-target="#new-thing-dialog">
+        <i class="mdi-content-add"></i>
+        <div class="ripple-wrapper"></div>
+    </button>
 {% endblock %}

@@ -10,8 +10,6 @@ $(document).ready(function () {
     client.onMessageArrived = onMessageArrived;
     client.connect({
         onSuccess : onConnect,
-        userName: "test",
-        password: "1234",
         keepAliveInterval: 120
     });
 });

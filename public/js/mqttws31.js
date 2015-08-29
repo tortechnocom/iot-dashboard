@@ -1704,7 +1704,7 @@ Paho.MQTT = (function (global) {
 		 */
 		this.connect = function (connectOptions) {
 			connectOptions = connectOptions || {} ;
-			console.log(connectOptions);
+			//console.log(connectOptions);
 			validate(connectOptions,  {timeout:"number",
 									   userName:"string", 
 									   password:"string", 
