@@ -95,7 +95,7 @@
     </div>
     <script>
         $("#thing-setting-icon-{{ thing._id.toString() }}").click(function () {
-            showModalDialog("thing-dialog-{{thing._id.toString()}}", "thing/setting", {thing_id: "{{ thing._id.toString() }}"});
+            showModalDialog("thing-dialog-{{thing._id.toString()}}", "thing/setting", {thing_id: "{{ thing._id.toString() }}", user_id: "{{user_id}}"});
         });
     </script>
    {% endfor %}

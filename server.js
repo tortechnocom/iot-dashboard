@@ -128,11 +128,13 @@ function setup() {
 }
 // Accepts the connection if the username and password are valid
 var authenticate = function(client, userName, password, callback) {
-    var authorized = (userName === 'test' && password.toString() === '1234');
-    console.log("userName: " + userName);
-    console.log("User authorized: " + authorized);
-    if (authorized)
-        client.user = userName;
-    callback(null, authorized);
+    var User = mongoose.model('User');
+    User.find({username: userName, hashed_password: password}).exec(function (err, user) {
+        var authorized = false;
+        if (user != "") authorized = true;
+        if (authorized)
+            client.user = userName;
+        callback(null, authorized);
+    });
 }
 module.exports.mqtt = server;

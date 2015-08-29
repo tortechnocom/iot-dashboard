@@ -43,7 +43,9 @@
                     <h3 class="panel-title">MQTT Info</h3>
                </div>
                <div class="panel-body">
-                    Device Client ID: xxxxxxxxxxxx
+                    <b>User Name:</b> {{user.username}}<br/>
+                    <b>Password:</b> {{user.hashed_password}}<br/>
+                    <b>Device Client ID:</b> t:{{thing._id.toString()}}
                </div>
             </div>
       </div>

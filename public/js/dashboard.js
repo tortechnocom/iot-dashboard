@@ -78,8 +78,8 @@ function bindSwitch (obj) {
     clientList[thingId].onMessageArrived = onMessageArrived;
     clientList[thingId].connect({
         onSuccess : function () {onConnect(thingId)},
-        userName: "test",
-        password: "1234",
+        userName: "testuser",
+        password: "23331067a6699247d017e4adf6fab8c8d2bb0508",
         keepAliveInterval: 120
     });
     $(obj).bind({

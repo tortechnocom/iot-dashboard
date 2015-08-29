@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Thing = mongoose.model('Thing');
+var User = mongoose.model('User');
 var utils = require('../../lib/utils');
 
 /**
@@ -29,9 +30,12 @@ exports.create = function (req, res) {
 exports.setting = function (req, res) {
     setLang(req, res);
     var things = null;
-    Thing.findOne({_id: req.query.thing_id}, function(err, doc) {
-        res.render('thing/thing-setting', {
-            thing: doc
+    Thing.findOne({_id: req.query.thing_id}, function(err, thing) {
+        User.findOne({_id: req.query.user_id}, function(err, user) {
+            res.render('thing/thing-setting', {
+                thing: thing,
+                user: user
+            });
         });
     });
   };
