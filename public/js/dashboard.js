@@ -73,9 +73,7 @@ function bindSwitch (obj) {
     userId = $(obj).attr("user-id");
     clientTime = new Date().getTime();
     clientId = "t:" + userId + ":" + thingId + ":" + clientTime
-    clientList[thingId] = new Paho.MQTT.Client("192.168.0.74", 8443, clientId);
-    //clientList[thingId] = new Paho.MQTT.Client("wss://146.148.85.203:8443/mqtt", clientId);
-    //clientList[thingId] = new Paho.MQTT.Client("wss://192.168.1.48:8443/mqtt", clientId);
+    clientList[thingId] = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
     // set callback handlers
     clientList[thingId].onConnectionLost = onConnectionLost;
     clientList[thingId].onMessageArrived = onMessageArrived;

@@ -5,7 +5,7 @@
 $(document).ready(function () {
     clientTime = new Date().getTime();
     clientId = "global:" + clientTime;
-    client = new Paho.MQTT.Client("wss://192.168.0.74:8443/mqtt", clientId);
+    client = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
     client.connect({
