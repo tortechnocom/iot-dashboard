@@ -40,7 +40,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             async: false,
-            url: "things/create",
+            url: "thing/create",
             data: data,
             dataType: "json",
             success: function (data) {
