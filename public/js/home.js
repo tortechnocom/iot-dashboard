@@ -9,6 +9,7 @@ $(document).ready(function () {
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
     client.connect({
+        useSSL: true,
         onSuccess : onConnect,
         keepAliveInterval: 120
     });
