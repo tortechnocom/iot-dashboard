@@ -33,7 +33,7 @@ ThingSchema.path('enabled').validate(function (enabled) {
     return enabled.length;
 }, 'Status cannot be blank');
 ThingSchema.path('description').validate(function (description) {
-    return description.length;
+    return true;
 }, 'Description cannot be blank');
 
 
