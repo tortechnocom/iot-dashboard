@@ -45,6 +45,7 @@ exports.setting = function(req, res) {
 
 exports.update = function(req, res) {
 	req.body.enabled = (req.body.enabled != null ? req.body.enabled : "N");
+	console.log(req.body);
 	Thing.findOneAndUpdate({
 		_id : req.body.thing_id
 	}, {

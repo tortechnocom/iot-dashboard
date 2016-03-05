@@ -68,15 +68,18 @@ $(document).ready(function () {
 });
 var clientList = [];
 var connOptions = null;
+var hasConnection = [];
 function bindSwitch (obj) {
     var thingId = $(obj).attr("id");
     userId = $(obj).attr("user-id");
     clientTime = new Date().getTime();
     clientId = "t:" + userId + ":" + thingId + ":" + clientTime
+    console.log("location.hostname: " + location.hostname);
     clientList[thingId] = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
     // set callback handlers
     clientList[thingId].onConnectionLost = onConnectionLost;
     clientList[thingId].onMessageArrived = onMessageArrived;
+    hasConnection[thingId] = false;
     var connOptions = {
             useSSL: true,
             onSuccess : function () {onConnect(thingId)},
@@ -99,9 +102,8 @@ function onConnect(thingId) {
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
     id = this.clientId.split(":")[2];
-    if (responseObject.errorCode !== 0) {
-        console.log("onConnectionLost: " + responseObject.errorMessage);
-    }
+    console.log("Thing [" + id + "] connection fail, try to connect next 10 seconds");
+    setTimeout(hostReachable(id), 10000);
 }
 
 // called when a message arrives
@@ -149,4 +151,35 @@ function sendHttpMqtt(topic) {
             console.log(xhr.responseJSON);
         }
     });
+}
+function hostReachable(thingId) {
+	if (!hasConnection[thingId]) {
+	  // Handle IE and more capable browsers
+	  var xhr = new ( window.ActiveXObject || XMLHttpRequest )( "Microsoft.XMLHTTP" );
+
+	  // Open new request as a HEAD to the root hostname with a random param to bust the cache
+	  xhr.open( "HEAD", "//" + window.location.hostname + ":8443/?rand=" + Math.floor((1 + Math.random()) * 0x10000), false );
+
+	  // Issue request and handle response
+	  try {
+	    xhr.send();
+	    hasConnection[thingId] = true;
+	  } catch (error) {
+		console.log("Connection fail!");
+		hasConnection[thingId] = false;
+	  }
+	  setTimeout(hostReachable(thingId), 10000);
+	} else {
+		console.log("Try to connect thingId: " + thingId);
+		hasConnection[thingId] = false;
+		connOptions = {
+	            useSSL: true,
+	            onSuccess : function () {onConnect(thingId)},
+	            userName: "testuser",
+	            password: "23331067a6699247d017e4adf6fab8c8d2bb0508",
+	            keepAliveInterval: 120,
+	            cleanSession: true
+	        };
+		clientList[thingId].connect(connOptions);
+	}
 }

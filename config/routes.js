@@ -77,7 +77,7 @@ module.exports = function(app, passport) {
     app.post('/thing/update', thing.update);
 
     // MQTT Routes
-    //app.post("/things/mqtt/publish", things.mqtt.publish);
+    //app.get("/mqtt", mqtt.publish);
     /**
      * Error handling
      */

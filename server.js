@@ -52,7 +52,9 @@ mqttServer.on('clientConnected', function(client) {
 // fired when a message is received
 mqttServer.on('published', function(packet, client) {
     var MqttMessage = mongoose.model('MqttMessage');
+    var Thing = mongoose.model('Thing');
     if (client != null && packet.topic != "iot/global") {
+    	console.log("Published client.id: " + client.id);
         var mqttMessage = new MqttMessage({client: client.id, topic: packet.topic, message: packet.payload});
         mqttMessage.save();
         MqttMessage.find().exec(function (err, mqttMessages) {
@@ -66,6 +68,10 @@ mqttServer.on('published', function(packet, client) {
                 console.log('done!');
             });
         });
+        // update thing
+        console.log("Packet.payload: " + packet.payload);
+        console.log("Thing: " + client.id.split(":")[1]);
+        Thing.findOneAndUpdate({_id: client.id.split(":")[2]}, {$set: {switch_status: packet.payload}}, function (err, doc) {});
     }
 });
 mqttServer.on('ready', setup);
